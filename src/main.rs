@@ -13,6 +13,10 @@ struct Args {
     #[arg(long, short)]
     dir: Option<String>,
 
+    /// e.g. "127.0.0.1", default "0.0.0.0"
+    #[arg(long, short)]
+    ip: Option<String>,
+
     /// e.g. 8080, default 8080
     #[arg(long, short)]
     port: Option<u16>,
@@ -22,7 +26,7 @@ struct Args {
 async fn main() -> std::io::Result<()> {
     let args = Args::parse();
 
-    let (endpoint, dir, port) = (
+    let (endpoint, dir, ip, port) = (
         match args.endpoint {
             Some(v) => {
                 if !v.ends_with("/") {
@@ -37,6 +41,10 @@ async fn main() -> std::io::Result<()> {
             Some(v) => v,
             None => ".".to_owned(),
         },
+        match args.ip {
+            Some(v) => v,
+            None => "0.0.0.0".to_owned(),
+        },
         match args.port {
             Some(v) => v,
             None => 8080,
@@ -44,14 +52,14 @@ async fn main() -> std::io::Result<()> {
     );
 
     println!(
-        "Static file server serving on: http://127.0.0.1:{}{}",
-        port, endpoint
+        "Static file server serving on: http://{}:{}{}",
+        ip, port, endpoint
     );
 
     HttpServer::new(move || {
         App::new().service(fs::Files::new(&endpoint, &dir).show_files_listing())
     })
-    .bind(("127.0.0.1", port))?
+    .bind((ip, port))?
     .run()
     .await
 }
