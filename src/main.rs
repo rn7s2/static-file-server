@@ -5,15 +5,15 @@ use clap::{arg, command, Parser};
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// e.g. "/static/"
+    /// e.g. "/static/", default "/"
     #[arg(long, short)]
     endpoint: Option<String>,
 
-    /// e.g. "."
+    /// e.g. ".", default "."
     #[arg(long, short)]
     dir: Option<String>,
 
-    /// e.g. 8080
+    /// e.g. 8080, default 8080
     #[arg(long, short)]
     port: Option<u16>,
 }
