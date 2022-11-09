@@ -10,7 +10,7 @@ Set up a static file server in 10 secs!
 
 ```shell
 $ ./static-file-server -e "/files/" -d "." -p 4567
-Static file server serving on: http://127.0.0.1:4567/files/
+Static file server serving on: http://0.0.0.0:4567/files/
 ```
 
 2. `files` dir, `/` endpoint and port 8080
@@ -29,6 +29,7 @@ Usage: static-file-server.exe [OPTIONS]
 Options:
   -e, --endpoint <ENDPOINT>  e.g. "/static/", default "/"
   -d, --dir <DIR>            e.g. ".", default "."
+  -i, --ip <IP>              e.g. "127.0.0.1", default "0.0.0.0"
   -p, --port <PORT>          e.g. 8080, default 8080
   -h, --help                 Print help information
   -V, --version              Print version information
